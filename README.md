@@ -479,9 +479,9 @@ todoLeft = ko.computed(function(){
 Here is some really good code !
 
 There is 3 steps to count the number of undone tasks.
-The first one is to map every column in the array columns to return the tasks associated with the column.
-The second is to reduce the tasks returned. To explain briefly, we'll use an accumulator that start at 0 and is incremented by 1 each time the reduce is hit.
-The final step is to filter the tasks to only get the undone tasks.
+- The first one is to map every column in the array columns to return the tasks associated with the column.
+- The second is to reduce the tasks returned. To explain briefly, we'll use an accumulator that start at 0 and is incremented by 1 each time the reduce is hit.
+- The final step is to filter the tasks to only get the undone tasks.
 
 So finally we get the number of tasks unfinished as a result.
 
