@@ -24,8 +24,32 @@ function Column(options) {
   var self = this;
 }
 ```
-The
-A column is defined by a name and an id :
+The self = this is a good practice way to define attributes for a js class. 
+
+A column is defined by a name and an id. The id will be given by the collection which stores the columns (we'll come to that later in board.js).
+The name should be a simple ko.observable() with a default value at "new column".
+The id is a computed (observable based on other observables) that will look at its index on the parent collection.
+
+```javascript
+function Column(options) {
+  var self = this;
+  this.name = ko.observable("new column");
+  this.id = ko.computed(function() {
+    var _parent = options.parent();
+    return _parent.indexOf(self);
+  });
+}
+```
+
+Don't forget to return the Column at the end of the js !
+
+```javascript
+function Column(options) {
+  /** leave as it is **/
+}
+
+return Column;
+```
 
 
 
