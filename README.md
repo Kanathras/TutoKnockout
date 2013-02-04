@@ -4,7 +4,7 @@ TutoKnockout
 Presentation
 ------------
 
-The goal of this tutorial is to provide a simple project management.
+The goal of this tutorial is to provide a simple project management (a simplier version of trello : https://trello.com/).
 We'll have a board in which we'll store columns. These columns could represent a state (Urgent, Can Wait, To define, etc.).
 Each columns has several tasks. These could be everything (do the cleaning, buy milk, teach you dog how to bark, go to the fistiniere, ...).
 The tasks can be passed from a column to another. The tasks can be undone or done (with a checkbox).
