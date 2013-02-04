@@ -485,6 +485,19 @@ The final step is to filter the tasks to only get the undone tasks.
 
 So finally we get the number of tasks unfinished as a result.
 
+Don't forget to return it !
+
+```javascript
+return {
+    columns: columns,
+    wrapperSize: ko.computed(function() {
+        return (columns().length + 1) * 310;
+    }),
+    addColumn: addColumn,
+    todoLeft : todoLeft
+};
+```
+
 We can now simply display that number on the view :)
 
 File: index.html
