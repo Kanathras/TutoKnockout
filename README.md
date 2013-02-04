@@ -1,6 +1,14 @@
 TutoKnockout
 ============
 
+The goal of this tutorial is to provide a simple project management.
+We'll have a board in which we'll store columns. These columns could represent a state (Urgent, Can Wait, To define, etc.).
+Each columns has several tasks. These could be everything (do the cleaning, buy milk, teach you dog how to bark, go to the fistiniere, ...).
+The tasks can be passed from a column to another. The tasks can be undone or done (with a checkbox).
+We can freely add/remove columns and tag.
+The board should be saved in the local storage (since we don't have a server side nor a database)
+
+
 Project should be empty with only libraries and some js files with nothing in it.
 viewmodels/board, viewmodels/column, viewmodels/task, router, main
 
@@ -51,18 +59,17 @@ function Column(options) {
 return Column;
 ```
 
+So far we have defined a Column. Now we need to store our future columns in a new class : a board (the main panel).
 
-
-
+File : board.js
+----------------
+Just as Column.js, we are compeled to define the requirement of a board.
 
 
 index.html : 
 add reference to script js main.js : <script data-main="javascripts/main.js" src="javascripts/require.js" type="text/javascript" ></script>
 Important : data-main et src
 
-Columns.js 
-ne pas oublier le options dans le constructeur
-juste un name
 Board
 juste des columns
 Main : boardElement et ko.applyBindings
