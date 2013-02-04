@@ -144,9 +144,9 @@ I already write some LESS/CSS code to make the page pretty, so don't bother with
             <header>
                 <span data-bind="text: name" />
             </header>
+            <footer>
+            </footer>
         </section>
-        <footer>
-        </footer>
     </div>
 </section>
 ```
@@ -334,11 +334,22 @@ Before going into big trouble, add the task dependency inside the define of the 
 define(["vendors/knockout-2.1.0", "viewmodels/task"], function(ko, Task) {
 ```
 
-Now we can add our array (empty by default)
+Now we can add our array
 
 ```javascript
-this.tasks = ko.observableArray({});
+this.tasks = ko.observableArray(function() {
+    var _tasks = options.tasks || [];
+
+    return _tasks.map(function(task) {
+        return new Task(task);
+    });
+}());
 ```
+
+It seems complicated, but it's not, i sware. In some time, we'll use localstorage to store our columns/tasks and load them at the start of our app.
+So we can pass some existing tasks inside the constructor of Column. It's the "options". So we store either options.tasks or an empty array.
+
+Then we map each task passed with options to a new Task. So each task passed in option will populate the array of tasks. 
 
 Once that tiny little task is done, we can update our view to display tasks of each column.
 
