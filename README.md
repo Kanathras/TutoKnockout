@@ -169,9 +169,12 @@ We need a function that add a column to the array "columns". A simple push will 
 
 ```javascript
 function addColumn(column) {
+  column.parent = columns;
   columns.push(new Column(column));
 }
 ```
+
+Note that in order to the created object to now it's place in the array, we set the parent of the new object as the array.
 
 The parameters column represents the new column that should be added. With the button to add column, this parameter will be empty, but later we'll want to rebuild the array with cached datas.
 new Column(); just call the constructor of Column;
@@ -226,7 +229,13 @@ Once it's done, you can define some action to do. Here, we'll call the addColumn
 
 One last step before sammy is operational, main.js must start the routing.
 
-Go to main.js and add at the bottom of the script :
+Go to main.js and add a dependency in the define :
+
+```javascript
+require(["vendors/knockout-2.1.0", "viewmodels/board", "router"], function(ko, board, router) {
+```
+
+Then, at the bottom of the script :
 
 ```javascript
 router.run("#/");
@@ -384,7 +393,40 @@ this.addTaskAction = ko.computed(function() {
 });
 ```
 
-This defines the route as #/columns/the_id_of_the_column
+This defines the route as #/columns/the_id_of_the_column. Remember, the id is based upon the index of the column in the array of columns (board.js)
+
+Now we can create the route.
+
+File: router.js
+---------------
+
+After the previous route (add column), add
+
+```javascript
+this.post("#/columns/:id", function(context) {
+    board.columns()[context.params.id].addTask({});
+});
+```
+
+The context will store every params given inside the request, so we can get the id of the column in which we want to add the task !
+Then we call the addTask function of the column (with an empty new task).
+
+The last thing to do is to add a button in our view.
+
+File: index.html
+----------------
+
+I choose to add the button in the footer of each column.
+
+```html
+<form method="POST" class="pull-right" data-bind="attr: { action: addTaskAction }">
+    <button type="submit" class="btn btn-primary"><i class="icon-plus-sign"></i>Add todo</button>
+</form>
+```
+
+It works exactly as the button to add columns. The only difference is that the action is given by an observable (which ensure the unicity of the action).
+
+Refresh your page and now you can add tasks to your columns ! Yeah baby ! \o/ o// \\o ~o~
 
 
 
@@ -405,15 +447,5 @@ This defines the route as #/columns/the_id_of_the_column
 
 
 
-ADD TASKS
-
-columns.js
-function addTask : Column.prototype avec un push(new Task(task))
-
-this.id = computed
-_parent = options.parent();
-return _parent.indexOf(self);
-
-this.addTaskAction computed return "#/columns/" + self.id();
 
 
