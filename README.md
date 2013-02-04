@@ -81,6 +81,71 @@ So far we have defined a Column. Now we need to store our future columns in a ne
 File : board.js
 ----------------
 Just as Column.js, we are compeled to define the requirement of a board.
+A board need knockout (of course) and a reference to the Column class (or we won't be able to instantiate columns...)
+```javascript
+define(["vendors/knockout-2.1.0", "viewmodels/column"], function(ko, Column) {
+});
+```
+
+A board is based on columns. There would be more than one column, so we need an array of observable :
+```javascript
+var columns = ko.observableArray({});
+
+return {
+  columns: columns
+};
+```
+Some precisions :
+- the {} inside the observableArray means we instantiate it empty by default
+- the return columns: columns will be useful later when we'll need to return several objects
+
+File : main.js
+----------------
+main.js will be the base of our application. It'll bind the viewmodel to the DOM.
+So the requirements for this file will be knockout and board
+
+```javascript
+define(["vendors/knockout-2.1.0", "viewmodels/board"], function(ko, board) {
+});
+```
+
+Inside, 2 simple line will do the job. Look for the right DOM element to bind the viewmodel, and apply the knockout bindings to it
+
+```javascript
+var boardDOMElement = document.getElementById("main");
+
+ko.applyBindings(board, boardDOMElement);
+```
+
+Now let's display the columns in the view !
+
+File: index.html
+----------------
+
+Since our main.js is not referenced to the page, let's add
+```html
+<script data-main="javascripts/main.js" src="javascripts/require.js" type="text/javascript" ></script>
+```
+data-main means the main.js file is the base script of our app. Everything we'll be build with it (even the dependencies)
+src refers to the js framework require that defines the requirements for each other js file.
+
+Now let's add a section between the header and the footer to display the columns !
+I already write some LESS/CSS code to make the page pretty, so don't bother with it (just put the same classes as me). 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 index.html : 
