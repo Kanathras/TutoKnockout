@@ -287,6 +287,104 @@ We can now peacely go for step 2 : adding some taks.
 Step 2 : Manage tasks
 =====================
 
+As for the columns, we need to define the model of our tasks first.
+
+File: task.js
+-------------
+
+As usual, begin by set the requirements of our file. Since the tasks doesn't have particuliar dependency, just add knockout
+
+```javascript
+define(["vendors/knockout-2.1.0"], function(ko) {
+});
+```
+
+A task is only made of a name ("todo" by default) and a bool specifying if the task is done or not (false by default).
+So inside the define, build our class :
+
+```javascript
+function Task(options) {
+    var self = this;
+    self.name = ko.observable("todo");
+    self.done = ko.obserable(false);
+}
+
+return Task;
+```
+
+Don't forget to return the Task at the end of the define.
+
+Now that we've defined the model, we can add an array of tasks to our column class :
+
+File: column.js
+---------------
+
+Before going into big trouble, add the task dependency inside the define of the file !
+
+```javascript
+define(["vendors/knockout-2.1.0", "viewmodels/task"], function(ko, Task) {
+```
+
+Now we can add our array (empty by default)
+
+```javascript
+this.tasks = ko.observableArray({});
+```
+
+Once that tiny little task is done, we can update our view to display tasks of each column.
+
+File: index.html
+----------------
+
+Between the header and the footer or our section "column", we add :
+
+```html
+<div class="wrapper" data-bind="foreach: tasks">
+    <input type="checkbox" data-bind="checked: done" />
+    <span data-bind="text: name">
+</div>
+```
+
+As for the column, we wrap the tasks to manage the height and the scrollbar (we'll get to that later on).
+
+Our tasks are now dynamically displayed in our view !
+
+But since we don't have any tasks, it's useless... there's time to add some tasks !
+
+Add Tasks
+=========
+
+We'll work as we did with tasks. A post request caught by sammy.
+But there is some adjustement to make.
+
+First, code a function in column.js to add tasks :
+
+File: column.js
+---------------
+
+The function will not be inside the constructor of the class. The reason is that we don't want the function to be copyied again and again in each instance of the class.
+We want to define it once and for all. 
+
+For that, just use prototype after the function Column(options){}
+
+```javascript
+Column.prototype.addTask = function(task) {
+    this.tasks.push(new Task(task));
+}
+```
+
+Now we want to create the route. But there is a problem. We want to add the task to only one of the column, so we need to pass its id in the route.
+To do so, we need to define an observable that'll be unique for each column and that'll define the action of our form.
+
+Inside function Column(options){}, add an observable :
+
+```javascript
+this.addTaskAction = ko.computed(function() {
+    return "#/columns/" + self.id();
+});
+```
+
+This defines the route as #/columns/the_id_of_the_column
 
 
 
@@ -305,17 +403,7 @@ Step 2 : Manage tasks
 
 
 
-STEP 3 : tasks
 
-task.js :
-ne pas oublier le options dans le constructeur
-juste un name et bool done
-column.js :
-this.tasks observable array
-index.html :
-div class=wrapper foreach tasks
-input checkbox checked: done
-span name
 
 ADD TASKS
 
