@@ -175,10 +175,78 @@ Don't forget to return the function along with the columns at the end of the fil
 
 ```javascript
 return {
-        columns: columns,
-        addColumn: addColumn
-    };
+    columns: columns,
+    addColumn: addColumn
+};
 ```
+
+Right now, the only thing missing is a button to add a new column.
+
+Before we add it, just take a second to think about the implementation. We have several ways to add an action that'll call addColumn function.
+We can simply add a js event OnClick on the button and bind it to the function.
+We can also call a web api that'll call the function.
+
+The good point about the web api is that we need to call the server. So the server can store by itself the new data and send back the new column (so we can push it on the array of columns).
+In that case, there is merely no desynchronization between the client and the server. It's a way more secure to avoid troubles.
+
+As you might understand, we'll go for the web api.
+A simple post request in a form will do the job.
+
+To catch the request and stay inside our single page application, we use sammy.js. It's a routing javascript framework (more infos : http://sammyjs.org/)
+
+File: router.js
+---------------
+
+This file will catch the different routes that are used with this app.
+
+It requires sammy and the board to work, so defines this :
+
+```javascript
+define(["vendors/sammy", "viewmodels/board"], function(sammy, board) {
+};
+```
+
+Then write our first route
+
+```javascript
+return sammy("#main", function() {
+  this.post("#/columns", function(context) {
+      board.addColumn({});
+  });
+});
+```
+
+The "#" (hashtag) are here to define routes. When a request is send, sammy catch the type of request (here POST) and the tag associate (here #/columns).
+Once it's done, you can define some action to do. Here, we'll call the addColumn function of the board.
+
+One last step before sammy is operational, main.js must start the routing.
+
+Go to main.js and add at the bottom of the script :
+
+```javascript
+router.run("#/");
+```
+
+We can finally add our button !
+
+Go to the index.html
+
+File: index.html
+----------------
+
+I choose to add the button in the navbar and put some cool boostrap design on it.
+
+```html
+<form method="POST" action="#/columns">
+    <button type="submit" class="btn btn-primary pull-right"><i class="icon-plus-sign"></i>Add Column</button>
+</form>
+```
+
+As previously said, the form has the POST method and the action is bind with the route #/columns. Uppon submit, it'll be catch by sammy.
+The class of button is based on bootstrap and fontawesome frameworks.
+
+
+
 
 
 
