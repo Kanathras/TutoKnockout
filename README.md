@@ -1,6 +1,9 @@
 TutoKnockout
 ============
 
+Presentation
+------------
+
 The goal of this tutorial is to provide a simple project management.
 We'll have a board in which we'll store columns. These columns could represent a state (Urgent, Can Wait, To define, etc.).
 Each columns has several tasks. These could be everything (do the cleaning, buy milk, teach you dog how to bark, go to the fistiniere, ...).
@@ -8,6 +11,20 @@ The tasks can be passed from a column to another. The tasks can be undone or don
 We can freely add/remove columns and tag.
 The board should be saved in the local storage (since we don't have a server side nor a database)
 
+
+Requirements
+------------
+
+To work with sammy and LESS, i highly suggest you to create your own http web server. It's very simple. 
+- On linux/macOS, simply install python and launch 
+```console
+$ python -m SimpleHTTPServer
+```
+More details on : http://www.linuxjournal.com/content/tech-tip-really-simple-http-server-python
+- On windows, go for IIS or more simply Tiny : http://www.commentcamarche.net/faq/4500-web-un-minuscule-serveur-web-sous-windows
+
+Where to start
+--------------
 
 Project should be empty with only libraries and some js files with nothing in it.
 viewmodels/board, viewmodels/column, viewmodels/task, router, main
