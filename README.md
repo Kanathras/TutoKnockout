@@ -31,7 +31,7 @@ viewmodels/board, viewmodels/column, viewmodels/task, router, main
 
 There is many steps to achieve this projet.
 
-Step 1 : Manage columns
+Step 1 : Display columns
 =======================
 
 First of all, we need to edit the model of a column :
@@ -134,16 +134,16 @@ I already write some LESS/CSS code to make the page pretty, so don't bother with
 
 ```html
 <section id="board">
-        <div class="wrapper" data-bind="foreach: columns">
-            <section class="column">
-                <header>
-                    <span data-bind="text: name" />
-                </header>
-            </section>
-            <footer>
-            </footer>
-        </div>
-    </section>
+    <div class="wrapper" data-bind="foreach: columns">
+        <section class="column">
+            <header>
+                <span data-bind="text: name" />
+            </header>
+        </section>
+        <footer>
+        </footer>
+    </div>
+</section>
 ```
 
 The wrapper is here to ensure that the columns that cannot be displayed on the screen won't go below but on the right of the screen (with a horizontal scrollbar)
@@ -152,6 +152,33 @@ The foreach binding will iterate on each element of the columns observable and a
 The text binding is simplier as it only display the name of the column (we'll make editable later !)
 
 
+We can now display columns on the view, but unfortunately, our observableArray is empty. We need an action to push some data into the observable.
+
+Add Columns
+===========
+
+File: board.js
+--------------
+
+We need a function that add a column to the array "columns". A simple push will do the job.
+
+```javascript
+function addColumn(column) {
+  columns.push(new Column(column));
+}
+```
+
+The parameters column represents the new column that should be added. With the button to add column, this parameter will be empty, but later we'll want to rebuild the array with cached datas.
+new Column(); just call the constructor of Column;
+
+Don't forget to return the function along with the columns at the end of the file :
+
+```javascript
+return {
+        columns: columns,
+        addColumn: addColumn
+    };
+```
 
 
 
@@ -166,15 +193,6 @@ The text binding is simplier as it only display the name of the column (we'll ma
 
 
 
-
-index.html : 
-add reference to script js main.js : <script data-main="javascripts/main.js" src="javascripts/require.js" type="text/javascript" ></script>
-Important : data-main et src
-
-Board
-juste des columns
-Main : boardElement et ko.applyBindings
-index.html : section board, div wrapper, section column, span name
 
 ADD COLUMNS :
 
