@@ -11,6 +11,7 @@ The tasks can be passed from a column to another. The tasks can be undone or don
 We can freely add/remove columns and tag.
 The board should be saved in the local storage (since we don't have a server side nor a database)
 
+---
 
 Requirements
 ------------
@@ -23,6 +24,8 @@ $ python -m SimpleHTTPServer
 More details on : http://www.linuxjournal.com/content/tech-tip-really-simple-http-server-python
 - On windows, go for IIS or more simply Tiny : http://www.commentcamarche.net/faq/4500-web-un-minuscule-serveur-web-sous-windows
 
+---
+
 Where to start
 --------------
 
@@ -30,6 +33,8 @@ Project should be empty with only libraries and some js files with nothing in it
 viewmodels/board, viewmodels/column, viewmodels/task, router, main
 
 There is many steps to achieve this projet.
+
+---
 
 Step 1 : Display columns
 =======================
@@ -245,6 +250,42 @@ I choose to add the button in the navbar and put some cool boostrap design on it
 As previously said, the form has the POST method and the action is bind with the route #/columns. Uppon submit, it'll be catch by sammy.
 The class of button is based on bootstrap and fontawesome frameworks.
 
+Run your http server, go to localhost and enjoy the possibility of adding columns \o/
+Yipiiii !
+
+As you'll probably see, if you add enough columns, the last ones will be moved under the first ones. It's not pretty !
+To add an horizontal scrollbar, we'll use our wrapper.
+
+We must know set the width of the wrapper depending on the number of columns and the size of a column.
+So go to board.js and change the return { } to also return the size of our wrapper (we can name it wrapperSize) :
+
+```javascript
+return {
+    columns: columns,
+    wrapperSize: ko.computed(function() {
+        return (columns().length + 1) * 310;
+    }),
+    addColumn: addColumn
+};
+```
+
+It is that simple. just return the size of the array (+ 1) and multiply by the width of one column (310px, defined in the css)
+
+In index.html, we now need to update the width of the wrapper. But how can we dynamically update a css attribute of a DOM element ?
+There is a knockout binding for that : attr {}
+
+```html
+<div class="wrapper" data-bind="foreach: columns, style: { width: wrapperSize }">
+```
+
+As you can see, we bind the width attribute of the wrapper to the wrapperSize observable. Isn't it beautiful ? The width will automatically update when we'll add columns !
+
+We can now peacely go for step 2 : adding some taks.
+
+---
+
+Step 2 : Manage tasks
+=====================
 
 
 
@@ -262,19 +303,7 @@ The class of button is based on bootstrap and fontawesome frameworks.
 
 
 
-ADD COLUMNS :
 
-rajouter function addColumn(column) --> just un push dans columns
-router.js --> return sammy avec this.post("#/columns")
-index.html --> form -> button type submit
-
-
-STEP 2 : wrapper
-
-board.js :
-return wrapperSize -> ko.computed de columns.length + 1 * 310
-index.html :
-data bind style width: wrapperSize
 
 STEP 3 : tasks
 
