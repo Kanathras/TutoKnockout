@@ -315,7 +315,7 @@ So inside the define, build our class :
 function Task(options) {
     var self = this;
     self.name = ko.observable("todo");
-    self.done = ko.obserable(false);
+    self.done = ko.observable(false);
 }
 
 return Task;
@@ -439,12 +439,66 @@ It works exactly as the button to add columns. The only difference is that the a
 
 Refresh your page and now you can add tasks to your columns ! Yeah baby ! \o/ o// \\o ~o~
 
+To do even better, i created a class to show that a task is done.
 
+In the div that englobe the task (inside the wrapper), you can add a data bind:
 
+```html
+<div data-bind="css:{done: done}">
+```
 
+The css data bind will add the css class if the condition are met. Here we test the observable boolean "done" of the task. If it's done, it'll add the class "done" to the div.
+Try it out !
 
+The core or the app is done. But a project is never finished, and we can add some very cool features !
 
+---
 
+Step 3 : Add a counter of undone tasks
+======================================
+
+To show the power of knockout, i suggest you to add a complex computed observable. For example, a counter of todos that are not done.
+
+File: board.js
+--------------
+
+We'll add a new computed observable named todoLeft after the array columns
+
+```javascript
+todoLeft = ko.computed(function(){
+    return columns().map(function(column){
+        return column.tasks();
+    }).reduce(function(acc, tasks){
+        return acc + tasks.filter(function(task){
+            return !task.done();
+        }).length;
+    }, 0);
+});
+```
+
+Here is some really good code !
+
+There is 3 steps to count the number of undone tasks.
+The first one is to map every column in the array columns to return the tasks associated with the column.
+The second is to reduce the tasks returned. To explain briefly, we'll use an accumulator that start at 0 and is incremented by 1 each time the reduce is hit.
+The final step is to filter the tasks to only get the undone tasks.
+
+So finally we get the number of tasks unfinished as a result.
+
+We can now simply display that number on the view :)
+
+File: index.html
+----------------
+
+In the footer navbar (bootstrap inside :p), add a simple span :
+
+```html
+<footer class="navbar navbar-inverse">
+    <div class="navbar-inner">
+        <span class="pull-right">Still <span data-bind="text:todo"></span> tasks left</span>
+    </div>
+</footer>
+```
 
 
 
