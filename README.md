@@ -495,7 +495,7 @@ In the footer navbar (bootstrap inside :p), add a simple span :
 ```html
 <footer class="navbar navbar-inverse">
     <div class="navbar-inner">
-        <span class="pull-right">Still <span data-bind="text:todo"></span> tasks left</span>
+        <span class="pull-right">Still <span data-bind="text:todoLeft"></span> tasks left</span>
     </div>
 </footer>
 ```
