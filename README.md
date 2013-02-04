@@ -132,6 +132,25 @@ src refers to the js framework require that defines the requirements for each ot
 Now let's add a section between the header and the footer to display the columns !
 I already write some LESS/CSS code to make the page pretty, so don't bother with it (just put the same classes as me). 
 
+```html
+<section id="board">
+        <div class="wrapper" data-bind="foreach: columns">
+            <section class="column">
+                <header>
+                    <span data-bind="text: name" />
+                </header>
+            </section>
+            <footer>
+            </footer>
+        </div>
+    </section>
+```
+
+The wrapper is here to ensure that the columns that cannot be displayed on the screen won't go below but on the right of the screen (with a horizontal scrollbar)
+We'll set the wrapper width later.
+The foreach binding will iterate on each element of the columns observable and apply the dom elements below (section, header, etc.)
+The text binding is simplier as it only display the name of the column (we'll make editable later !)
+
 
 
 
