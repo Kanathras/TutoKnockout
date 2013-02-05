@@ -352,7 +352,7 @@ define(["vendors/knockout-2.1.0", "viewmodels/task"], function(ko, Task) {
 Now we can add our array
 
 ```javascript
-this.tasks = ko.observableArray(function() {
+self.tasks = ko.observableArray(function() {
     var _tasks = options.tasks || [];
 
     return _tasks.map(function(task) {
@@ -375,8 +375,10 @@ Between the header and the footer or our section "column", we add :
 
 ```html
 <div class="wrapper" data-bind="foreach: tasks">
+  <div>
     <input type="checkbox" data-bind="checked: done" />
     <span data-bind="text: name">
+  </div>
 </div>
 ```
 
@@ -414,7 +416,7 @@ To do so, we need to define an observable that'll be unique for each column and 
 Inside function Column(options){}, add an observable :
 
 ```javascript
-this.addTaskAction = ko.computed(function() {
+self.addTaskAction = ko.computed(function() {
     return "#/columns/" + self.id();
 });
 ```
