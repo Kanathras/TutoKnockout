@@ -552,6 +552,8 @@ In the footer navbar, add a simple span :
 </footer>
 ```
 
+---
+
 Step 5 : Move tasks with jquery ui
 ==================================
 
@@ -590,11 +592,18 @@ We gonna change the foreach : tasks binding with the new sortable binding.
 
 And that's it ! It's that simple.
 
-Some precisions though. 
 In order to make a collection sortable, it should be able to add/delete/splice the objects inside (here tasks). We made it possible with our implementation of tasks in Column.js.
 
- 
+The same thing can be done with columns. There is only one difference. The tasks are passed from column to column. But a column cannot be added to another column.
 
+So the wrapper of column becomes :
+
+```html
+<div class="wrapper" data-bind="sortable: {data:columns, connectClass: 'column'}, style: { width: wrapperSize }">
+```
+
+data:columns represents the collection that would be sortable. We also specify the css class to set a DOM element as a drop target. Here we want to drop our column into a section class="column".
+So we add connectClass: 'column'
 
 
 
