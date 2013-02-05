@@ -695,17 +695,15 @@ Now try to use normally the app and look at the console. There is easily 5 saves
 Thankfully, Knockout had already think about this issue and they had come with a solution : throttle. With this extension of observable, we can delay the update of the observable.
 It will see the time since the last change and update if the data had not change for long enough.
 
-I think we can afford to save our board after 1s without change.
+I think we can afford to save our board after 500ms without change.
 So modify the jsonState to extend throttle :
 
 ```javascript
 jsonState = ko.computed(function() {
     console.log("we save the board in the local storage !");
     localStorage.setItem("board", JSON.stringify(state()));
-}).extend({ throttle: 1000 });
+}).extend({ throttle: 500 });
 ```
-
-The time is in millisecond. So 1000 is 1 second.
 
 We are now able to save our board in the local storage, yeah :)
 Let's load it now.
@@ -734,14 +732,87 @@ stored.forEach(function(column){
 });
 ``` 
 
+Reload the page, and hourray, our local storage is load and the previous state of your board is restored :D
 
 
+Our project is almost perfect ! There is just a very annoying thing when we want to drag and drop our tasks, if you click in the input name, it'll try to edit the value.
+We want it to act like a label with a simple click, and we want to change the value of the name with a doubleclick.
 
+Step 7 : Upgrade the way we edit the name
+=========================================
 
+So the goal is to have a task which is :
+- draggable with a simple click
+- editable with a double click
 
+We can translate that into a simple boolean : is the task in edit mode ?
 
+File: task.js
+-------------
 
+Simply add a bool observable in Task :
 
+```javascript
+self.edit = ko.observable(false);
+```
 
+We also need 2 function to pass from one mode to the other. As did with addColumn, add a prototype outside the Task() constructor :
+
+```javascript 
+Task.prototype.enableEdit = function(task, event) {
+    this.edit(true);
+}
+
+Task.prototype.disableEdit = function(task, event) {
+    this.edit(false);
+}
+```
+
+Now we can bind it with the view.
+
+File: index.html
+----------------
+
+To reflect the mode of the task, we can have a span or an input for the name.
+
+Modify the input name of the task by :
+
+```html
+<!-- ko if: edit -->
+<input type="text" data-bind="value:name">
+<!-- /ko -->
+<!-- ko ifnot: edit -->
+<span data-bind="text: name"></span>
+<!-- /ko -->
+```
+
+"ko if" will display the followed dom element if the test is true (here we test the boolean "edit").
+
+So with that code, we'll see an input if we're in edit mode, and a simple span if we're not in edit mode.
+
+Now we just have to bind the javascript event doubleclick (dblclick) to our function enableEdit. Knockout has a binding to bind an event with an observable. It works like the attr or css binding.
+
+Change the div representing the task by :
+
+```html
+<div data-bind="css:{done: done}, event:{dblclick: enableEdit}">
+```
+
+There is just one last thing to do now. When we loose the focus of the input, we want to call the disableEdit function.
+The event link to the "loose of focus" is blur.
+So change the input to :
+
+```html
+<input type="text" data-bind="value:name, event:{blur: disableEdit}">
+```
+
+Try it out :)
+
+To make an even better scenario, it should be good to select the entire name when we enter the edit mode.
+Go to task.js and add a small instruction in the enableEdit function :
+
+```javascript
+$(event.target).find('input').select();
+```
 
 
