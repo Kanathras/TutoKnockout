@@ -467,11 +467,33 @@ In the div that englobe the task (inside the wrapper), you can add a data bind:
 The css data bind will add the css class if the condition are met. Here we test the observable boolean "done" of the task. If it's done, it'll add the class "done" to the div.
 Try it out !
 
+---
+
+Step 3 : Edit the name of columns and tasks
+===========================================
+
+We want to change the names of our columns and tasks. There is a knockout binding for that. Even more, there is a knockout binding for almost everyhing ^^
+
+Here, we want to change the text: name by value: name and change the span by some input.
+
+File: index.html
+----------------
+
+In the header of a column, change the span by
+
+```html
+<input data-bind="text: name" />
+```
+
+The same is done for the task 
+
+Go to your page and now you would be able to edit the names.
+
 The core or the app is done. But a project is never finished, and we can add some very cool features !
 
 ---
 
-Step 3 : Add a counter of undone tasks
+Step 4 : Add a counter of undone tasks
 ======================================
 
 To show the power of knockout, i suggest you to add a complex computed observable. For example, a counter of todos that are not done.
@@ -530,7 +552,7 @@ In the footer navbar, add a simple span :
 </footer>
 ```
 
-Step 4 : Move tasks with jquery ui
+Step 5 : Move tasks with jquery ui
 ==================================
 
 Another cool feature that we want to implement is the possibility to sort the tasks as we want, and to move a task from a column to another.
@@ -544,6 +566,19 @@ I already added the needed js files to the project (under bindings/sortable.js a
 
 So to make it works, there is almost nothing to do :)
 
+File: main.js
+-------------
+
+Before using this awesome binding, we need to reference it in the main file.
+Simply put the require at the top 
+
+```javascript
+define(["vendors/knockout-2.1.0", "viewmodels/board", "router", "bindings/sortable"], function(ko, board, router) {
+```
+
+Now we can make collections sortable by using the custom binding. 
+
+
 File: index.html
 ----------------
 
@@ -553,8 +588,12 @@ We gonna change the foreach : tasks binding with the new sortable binding.
 <div class="wrapper" data-bind="sortable: tasks">
 ```
 
+And that's it ! It's that simple.
 
+Some precisions though. 
+In order to make a collection sortable, it should be able to add/delete/splice the objects inside (here tasks). We made it possible with our implementation of tasks in Column.js.
 
+ 
 
 
 
