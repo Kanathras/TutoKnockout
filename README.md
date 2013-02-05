@@ -619,10 +619,96 @@ Save the board in local storage
 -------------------------------
 
 The goal is to parse our board into JSON data and store it in the local storage of our browser.
-It's fairly easy.
 
-In the board.js file, just before the var columns, add
+What do we want to store in the local storage ? 
+The columns, defined by their name and a collection of tasks.
+The tasks, defined by a name and a status (done or not).
 
+We can simply return the name of the column, but for the tasks, we need to set up a computed observable that'll return the name and the status.
+
+File: task.js
+-------------
+
+After the 2 observable name and done, add a computed
+
+```javascript
+self.data = ko.computed(function() {
+    return {
+        "name": self.name(),
+        "done": self.done()
+    };
+});
+```
+
+Now we can have a variable in our board that is updated each time we do something about column or tasks. Let's name it state.
+So our state will simply return for each column the name of the column and the data of the tasks.
+
+File: board.js
+--------------
+
+After columns, you can add the state computed observable :
+
+```javascript
+var columns = ko.observableArray([]),
+    state = ko.computed(function() {
+        var _columns = columns();
+    
+        return _columns.map(function(column) {
+            return {
+                name: column.name(),
+                tasks: column.tasks().map(function(task){
+                    return task.data();
+                })
+            };
+        })
+    }),
+    // leave the rest as before
+```
+
+Now that we know exactly what we want to store, we can use the local storage !
+
+Add a computed observable after state to set items into the local storage :
+
+```javascript
+jsonState = ko.computed(function() {
+    localStorage.setItem("board", JSON.stringify(state()));
+})
+```
+
+Each time the state observable will change, we'll save it to the local storage under the name of "board".
+
+By each time, i mean each time you add a column or a task, each time you edit a name, each time you drag/drop a column or a tag, each time you pass a task "done", etc.
+
+Let's put a log in the browser console to notify each time we save :
+
+```javascript
+jsonState = ko.computed(function() {
+    console.log("we save the board in the local storage !");
+    localStorage.setItem("board", JSON.stringify(state()));
+});
+```
+
+JSON.stringify will put the data of state into proper JSON.
+
+Now try to use normally the app and look at the console. There is easily 5 saves per second. It can be very heavy for the traffic. 
+
+Thankfully, Knockout had already think about this issue and they had come with a solution : throttle. With this extension of observable, we can delay the update of the observable.
+It will see the time since the last change and update if the data had not change for long enough.
+
+I think we can afford to save our board after 1s without change.
+So modify the jsonState to extend throttle :
+
+```javascript
+jsonState = ko.computed(function() {
+    console.log("we save the board in the local storage !");
+    localStorage.setItem("board", JSON.stringify(state()));
+}).extend({ throttle: 1000 });
+```
+
+The time is in millisecond. So 1000 is 1 second.
+
+We are now able to save our board in the local storage, yeah :)
+Let's load it now.
 
 
 Load the board from the local storage
@@ -630,12 +716,16 @@ Load the board from the local storage
 
 Once we have stored our columns/tasks into the local storage, we would like to load it and update the board when we reload the page.
 
+We saved the board in the local storage as JSON data. Knockout is perfectly capable of reading json with a simple parse.
+
+In board.js, add a new variable at the top to get items from localstorage :
+
 ```javascript
 var stored = JSON.parse(localStorage.getItem("board") || "[]"),
   columns = // leave the rest as before
 ```
 
-Once we've the board, we want to get all the columns/tasks from it and put it into our board.
+Once we've the "board" from the local storage, we want to get all the columns/tasks from it and put it into our board.
 To do that, add a simple statement after the definition of our variables in board.js.
 
 ```javascript
