@@ -605,6 +605,46 @@ So the wrapper of column becomes :
 data:columns represents the collection that would be sortable. We also specify the css class to set a DOM element as a drop target. Here we want to drop our column into a section class="column".
 So we add connectClass: 'column'
 
+We can now sort our objects with style :)
+
+Step 6 : Store datas
+====================
+
+It's kind of annoying to loose all our modifications once we reload the page, isn't it ?
+
+But since we don't have any server side, nor database, we have to find another way to keep data stored somewhere.
+The solution is brought to us by html 5 and its local storage (more infos : http://diveintohtml5.info/storage.html)
+
+Save the board in local storage
+-------------------------------
+
+The goal is to parse our board into JSON data and store it in the local storage of our browser.
+It's fairly easy.
+
+In the board.js file, just before the var columns, add
+
+
+
+Load the board from the local storage
+-------------------------------------
+
+Once we have stored our columns/tasks into the local storage, we would like to load it and update the board when we reload the page.
+
+```javascript
+var stored = JSON.parse(localStorage.getItem("board") || "[]"),
+  columns = // leave the rest as before
+```
+
+Once we've the board, we want to get all the columns/tasks from it and put it into our board.
+To do that, add a simple statement after the definition of our variables in board.js.
+
+```javascript
+stored.forEach(function(column){
+    addColumn(column);
+});
+``` 
+
+
 
 
 
