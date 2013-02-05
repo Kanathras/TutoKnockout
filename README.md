@@ -72,13 +72,13 @@ function Column(options) {
 The self = this is a good practice way to define attributes for a js class. 
 
 A column is defined by a name and an id. The id will be given by the collection which stores the columns (we'll come to that later in board.js).
-The name should be a simple ko.observable() with a default value at "new column".
+The name should be a simple ko.observable() with a default value at "new column" if the options are null.
 The id is a computed (observable based on other observables) that will look at its index on the parent collection.
 
 ```javascript
 function Column(options) {
   var self = this;
-  this.name = ko.observable("new column");
+  this.name = ko.observable(options.name || "new column");
   this.id = ko.computed(function() {
     var _parent = options.parent();
     return _parent.indexOf(self);
@@ -329,8 +329,8 @@ So inside the define, build our class :
 ```javascript
 function Task(options) {
     var self = this;
-    self.name = ko.observable("todo");
-    self.done = ko.observable(false);
+    self.name = ko.observable(options.name || "todo");
+    self.done = ko.observable(options.done || false);
 }
 
 return Task;
