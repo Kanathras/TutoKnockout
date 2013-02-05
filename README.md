@@ -4,7 +4,8 @@ TutoKnockout
 Presentation
 ------------
 
-The goal of this tutorial is to provide a simple project management (a simplier version of trello : https://trello.com/).
+The goal of this tutorial is to provide a basic project manager (a simplier version of trello : https://trello.com/).
+
 We'll have a board in which we'll store columns. These columns could represent a state (Urgent, Can Wait, To define, etc.).
 Each columns has several tasks. These could be everything (do the cleaning, buy milk, teach you dog how to bark, go to the fistiniere, ...).
 The tasks can be passed from a column to another. The tasks can be undone or done (with a checkbox).
@@ -12,6 +13,20 @@ We can freely add/remove columns and tag.
 The board should be saved in the local storage (since we don't have a server side nor a database)
 
 ---
+
+Technologies used
+-----------------
+
+The intention of this code is to provide a small tutorial for famous javascript frameworks.
+
+- Knockout (http://knockoutjs.com/)
+- Sammy (http://sammyjs.org/)
+- Require (http://requirejs.org/)
+- Bootstrap (http://twitter.github.com/bootstrap/)
+- Jquery UI (http://jqueryui.com/)
+- Font Awesome (http://fortawesome.github.com/Font-Awesome/)
+
+We'll also use LESS, a framework helping writing CSS (http://lesscss.org/)
 
 Requirements
 ------------
@@ -94,7 +109,7 @@ define(["vendors/knockout-2.1.0", "viewmodels/column"], function(ko, Column) {
 
 A board is based on columns. There would be more than one column, so we need an array of observable :
 ```javascript
-var columns = ko.observableArray({});
+var columns = ko.observableArray([]);
 
 return {
   columns: columns
@@ -503,7 +518,7 @@ We can now simply display that number on the view :)
 File: index.html
 ----------------
 
-In the footer navbar (bootstrap inside :p), add a simple span :
+In the footer navbar, add a simple span :
 
 ```html
 <footer class="navbar navbar-inverse">
@@ -512,6 +527,8 @@ In the footer navbar (bootstrap inside :p), add a simple span :
     </div>
 </footer>
 ```
+
+
 
 
 
