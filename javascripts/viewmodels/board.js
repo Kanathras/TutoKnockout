@@ -1,8 +1,8 @@
 define(["vendors/knockout-2.1.0", "viewmodels/column"], function(ko, Column) {
 
     var stored = JSON.parse(localStorage.getItem("board") || "[]"),
-        columns = ko.observableArray([]),
-        state = ko.computed(function() {
+    	columns = ko.observableArray([]),
+    	state = ko.computed(function() {
             var _columns = columns();
 
             return _columns.map(function(column) {
@@ -14,7 +14,7 @@ define(["vendors/knockout-2.1.0", "viewmodels/column"], function(ko, Column) {
                 };
             })
         }),
-        todo = ko.computed(function(){
+    	todo = ko.computed(function(){
             return columns().map(function(column){
                 return column.tasks();
             }).reduce(function(acc, tasks){
