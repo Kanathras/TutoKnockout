@@ -1,51 +1,25 @@
 <html>
 <head>
-    <title>Ko By Example</title>
+    <title>R&D Academy</title>
 
     <link rel="stylesheet/less" type="text/css" href="kickstrap/kickstrap.less">
     <link rel="stylesheet/less" type="text/css" href="stylesheets/main.less">
 
     <script src="javascripts/vendors/less.js" type="text/javascript"></script>
     <script src="javascripts/vendors/jquery-1.8.2.js" type="text/javascript"></script>
-    <script data-main="javascripts/main.js" src="javascripts/require.js" type="text/javascript" ></script>
 </head>
 <body id="main">
     <header id="toolbar" class="navbar navbar-inverse">
         <div class="navbar-inner">
-            <a href="#" class="brand">Knockout Academy</a>
-            <form method="POST" action="#/columns">
-                <button type="submit" class="btn btn-primary pull-right"><i class="icon-plus-sign"></i>Add Column</button>
-            </form>
+            <a href="#" class="brand">R&D Academy</a>
         </div>
     </header>
     <section id="board">
-        <div class="wrapper" data-bind="sortable: {data:columns, connectClass: 'column'}, style: { width: wrapperSize }">
-            <section class="column">
-                <header>
-                    <input type="text" data-bind="value: name" />
-                </header>
-                <div class="wrapper" data-bind="sortable:tasks">
-                    <div data-bind="css:{done: done},event: {dblclick: enableEdit}">
-                        <input type="checkbox" data-bind="checked: done">
-                        <!-- ko if: edit -->
-                        <input type="text" data-bind="value:name, event: {blur: disableEdit}">
-                        <!-- /ko -->
-                        <!-- ko ifnot: edit -->
-                        <span data-bind="text: name"></span>
-                        <!-- /ko -->
-                    </div>
-                </div>
-                <footer>
-                    <form method="POST" class="pull-right" data-bind="attr: { action: addTaskAction }">
-                        <button type="submit" class="btn btn-primary"><i class="icon-plus-sign"></i>Add todo</button>
-                    </form>
-                </footer>
-            </section>
+        <div class="wrapper">            
         </div>
     </section>
     <footer class="navbar navbar-inverse">
         <div class="navbar-inner">
-            <span class="pull-right">Still <span data-bind="text:todo"></span> tasks left</span>
         </div>
     </footer>
 </body>
