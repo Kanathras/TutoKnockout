@@ -530,7 +530,28 @@ In the footer navbar, add a simple span :
 </footer>
 ```
 
+Step 4 : Move tasks with jquery ui
+==================================
 
+Another cool feature that we want to implement is the possibility to sort the tasks as we want, and to move a task from a column to another.
+
+For this, we'll need jquery ui sortable (http://jqueryui.com/sortable/).
+In order to facilitate the implementation of jquery ui sortable with knockout, a cool guy named Ryan Niemeyer created a custom binding.
+His blog is found here : http://www.knockmeout.net/
+His github project for jquery ui sortable with knockout is found here : https://github.com/rniemeyer/knockout-sortable
+
+I already added the needed js files to the project (under bindings/sortable.js and vendors/jqueryui).
+
+So to make it works, there is almost nothing to do :)
+
+File: index.html
+----------------
+
+We gonna change the foreach : tasks binding with the new sortable binding.
+
+```html
+<div class="wrapper" data-bind="sortable: tasks">
+```
 
 
 
