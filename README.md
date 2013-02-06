@@ -39,6 +39,8 @@ $ python -m SimpleHTTPServer
 More details on : http://www.linuxjournal.com/content/tech-tip-really-simple-http-server-python
 - On windows, go for IIS or more simply Tiny : http://www.commentcamarche.net/faq/4500-web-un-minuscule-serveur-web-sous-windows
 
+I highly suggest you to use Google Chrome for this project, since i optimized the CSS for that particular browser. It works on Firefox and IE9, but some elements are not rendered as wanted.
+
 ---
 
 Where to start
@@ -47,7 +49,7 @@ Where to start
 Project should be empty with only libraries and some js files with nothing in it.
 viewmodels/board, viewmodels/column, viewmodels/task, router, main
 
-There is many steps to achieve this projet.
+There is many steps to achieve this projet. So let's start right now.
 
 ---
 
