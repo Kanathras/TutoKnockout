@@ -7,7 +7,7 @@ Presentation
 The goal of this tutorial is to provide a basic project manager (a simplier version of trello : https://trello.com/).
 
 We'll have a board in which we'll store columns. These columns could represent a state (Urgent, Can Wait, To define, etc.).
-Each columns has several tasks. These could be everything (do the cleaning, buy milk, teach you dog how to bark, go to the fistiniere, ...).
+Each columns have several tasks. These could be everything (do the cleaning, buy milk, teach you dog how to bark, go to the fistiniere, ...).
 The tasks can be passed from a column to another. The tasks can be undone or done (with a checkbox).
 We can freely add/remove columns and tag.
 The board should be saved in the local storage (since we don't have a server side nor a database)
